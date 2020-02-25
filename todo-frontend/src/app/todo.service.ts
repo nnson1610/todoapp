@@ -15,7 +15,7 @@ export class TodoService {
       .then(response => {
         const res = response as Todo[];
         res.forEach(element => {
-          element.timeOfEvent= this.formatTimeOfEvent(element.timeOfEvent);
+          element.timeOfEventDisplay = this.formatTimeOfEvent(element.timeOfEvent);
         });
         return res;
       })
@@ -27,7 +27,7 @@ export class TodoService {
       .toPromise().then(response => 
         {
           const res = response as Todo;
-          res.timeOfEvent = this.formatTimeOfEvent(res.timeOfEvent);
+          res.timeOfEventDisplay = this.formatTimeOfEvent(res.timeOfEvent);
           return res;
       })
       .catch(this.handleError);
@@ -36,7 +36,11 @@ export class TodoService {
   updateTodo(todoData: Todo): Promise<Todo> {
     return this.http.put(this.baseUrl + '/api/todos/' + todoData.id, todoData)
       .toPromise()
-      .then(response => response as Todo)
+      .then(response => {
+        const res = response as Todo;
+        res.timeOfEventDisplay = this.formatTimeOfEvent(res.timeOfEvent);
+        return res;
+      })
       .catch(this.handleError);
   }
 
@@ -46,7 +50,7 @@ export class TodoService {
       .catch(this.handleError);
   }
 
-  private formatTimeOfEvent(data: string): string {
+  private formatTimeOfEvent(data: Date): string {
     return moment(data).format('MM/DD/YYYY HH:mm');;
   }
 

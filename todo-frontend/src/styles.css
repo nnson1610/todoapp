@@ -1,9 +1,6 @@
 body {
     font-size: 18px;
     line-height: 1.58;
-    background: #d53369;
-    background: -webkit-linear-gradient(to left, #cbad6d, #d53369);
-    background: linear-gradient(to left, #cbad6d, #d53369); 
     color: #333;
   }
   
@@ -29,9 +26,8 @@ body {
   }
   
   .todo-content {
-    max-width: 650px;
     width: 100%;
-    margin: 0 auto;
+    margin: 50px;
     margin-top: 60px;
     background-color: #fff;
     padding: 15px; 
@@ -90,21 +86,8 @@ body {
   }
   
   .todo-content .todo-title {
-    margin-left: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  
-  .todo-content .todo-completed {
-    display: inline-block;
-    text-align: center;
-    width:35px;
-    height:35px;
-    cursor: pointer;
-  }
-  
-  .todo-content .todo-completed i {
-    font-size: 20px;
   }
   
   .todo-content .todo-actions, .todo-content .edit-actions {
@@ -128,7 +111,6 @@ body {
   }
   
   .todo-content .todo-edit input {
-    width: calc(100% - 80px);
     height: 35px;
   }
   .todo-content .edit-actions {
@@ -138,20 +120,12 @@ body {
   .no-todos {
     text-align: center;
   }
-  
-  .toggle-completed-checkbox:before {
-    content: 'check_box_outline_blank';
+
+  .todo-checkbox {
+    margin: auto 20px auto auto;
   }
-  
-  li.completed .toggle-completed-checkbox:before {
-    content: 'check_box';
-  }
-  
-  li.completed .todo-title {
-    text-decoration: line-through;
-    color: #757575;
-  }
-  
-  li.completed i {
-    color: #757575;
+
+  .btn-update {
+    float: right;
+    margin: 10px;
   }

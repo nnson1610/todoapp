@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TodoService } from './todo.service';
 import { Todo } from './todo';
 import {NgForm} from '@angular/forms';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'todo-list',
@@ -13,7 +14,8 @@ export class TodoListComponent implements OnInit {
   newTodo: Todo = new Todo();
   editing: boolean = false;
   editingTodo: Todo = new Todo();
-  deletingTodo: string[] = [];
+  selection = new SelectionModel<Element>(true, []);
+
   // Min moment, to validate min date
   public min = new Date();
 
@@ -47,6 +49,8 @@ export class TodoListComponent implements OnInit {
   }
 
   updateTodo(todoData: Todo): void {
+    
+    todoData.timeOfEvent = new Date(todoData.timeOfEvent)
     console.log(todoData);
     this.todoService.updateTodo(todoData)
     .then(updatedTodo => {
@@ -56,25 +60,25 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  toggleCheckbox(id: string): void {
-
-    console.log(id);
-
-    // todoData.completed = !todoData.completed;
-    // this.todoService.updateTodo(todoData)
-    // .then(updatedTodo => {
-    //   let existingTodo = this.todos.find(todo => todo.id === updatedTodo.id);
-    //   Object.assign(existingTodo, updatedTodo);
-    // });
-  }
-
   editTodo(todoData: Todo): void {
     this.editing = true;
+    todoData.timeOfEvent = new Date(todoData.timeOfEvent);
     Object.assign(this.editingTodo, todoData);
   }
 
   clearEditing(): void {
     this.editingTodo = new Todo();
     this.editing = false;
+  }
+
+  deleteSelectedRows() {
+    let promiseArr = [];
+    this.selection.selected.forEach(item => {
+      promiseArr.push(this.todoService.deleteTodo(item.id));
+    });
+    Promise.all(promiseArr).then(() => {
+      this.todoService.getTodos().then(todos => this.todos = todos );    
+    });
+    this.selection = new SelectionModel<Element>(true, []);
   }
 }
