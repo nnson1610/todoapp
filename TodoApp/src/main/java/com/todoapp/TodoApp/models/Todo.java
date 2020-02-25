@@ -23,8 +23,6 @@ public class Todo {
     private String description;
     
     private Date timeOfEvent;
-    
-    private Boolean completed = false;
 
     private Date createdAt = new Date();
 
@@ -67,14 +65,6 @@ public class Todo {
 	public void setTimeOfEvent(Date timeOfEvent) {
 		this.timeOfEvent = timeOfEvent;
 	}
-	
-    public Boolean getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(Boolean completed) {
-        this.completed = completed;
-    }
 
     public Date getCreatedAt() {
         return createdAt;
@@ -82,12 +72,5 @@ public class Todo {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "Todo[id=%s, title='%s', completed='%s']",
-                id, title, completed);
     }
 }

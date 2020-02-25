@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.todoapp.TodoApp.models.Todo;
@@ -26,7 +25,6 @@ public class TodoService {
     }
     
     public Todo create(Todo todo) {  
-        todo.setCompleted(false);
         return todoRepository.save(todo);
     }  
     
@@ -34,7 +32,8 @@ public class TodoService {
         return todoRepository.findById(id)
                 .map(todoData -> {
                     todoData.setTitle(todo.getTitle());
-                    todoData.setCompleted(todo.getCompleted());
+                    todoData.setDescription(todo.getDescription());
+                    todoData.setTimeOfEvent(todo.getTimeOfEvent());
                     return todoRepository.save(todoData);
                 });
     }  
