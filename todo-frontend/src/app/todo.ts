@@ -1,6 +1,7 @@
 export class Todo {
     id: string;
     title: string;
-    completed: boolean;
+    description: string;
+    timeOfEvent: string;
     createdAt: Date;
   }

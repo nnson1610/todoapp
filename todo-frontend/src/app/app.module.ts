@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 
 import { TodoListComponent } from './todo-list.component';
 import { TodoService } from './todo.service';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,11 @@ import { TodoService } from './todo.service';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    OwlDateTimeModule, 
+    OwlNativeDateTimeModule,
+    BrowserAnimationsModule,
+    NoopAnimationsModule
   ],
   providers: [TodoService],
   bootstrap: [AppComponent]

@@ -13,6 +13,9 @@ export class TodoListComponent implements OnInit {
   newTodo: Todo = new Todo();
   editing: boolean = false;
   editingTodo: Todo = new Todo();
+  deletingTodo: string[] = [];
+  // Min moment, to validate min date
+  public min = new Date();
 
   constructor(
     private todoService: TodoService,
@@ -53,13 +56,16 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  toggleCompleted(todoData: Todo): void {
-    todoData.completed = !todoData.completed;
-    this.todoService.updateTodo(todoData)
-    .then(updatedTodo => {
-      let existingTodo = this.todos.find(todo => todo.id === updatedTodo.id);
-      Object.assign(existingTodo, updatedTodo);
-    });
+  toggleCheckbox(id: string): void {
+
+    console.log(id);
+
+    // todoData.completed = !todoData.completed;
+    // this.todoService.updateTodo(todoData)
+    // .then(updatedTodo => {
+    //   let existingTodo = this.todos.find(todo => todo.id === updatedTodo.id);
+    //   Object.assign(existingTodo, updatedTodo);
+    // });
   }
 
   editTodo(todoData: Todo): void {

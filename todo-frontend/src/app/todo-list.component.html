@@ -1,52 +1,71 @@
 <div class="todo-content">
-    <h1 class="page-title">My Todos</h1>
-    <div class="todo-create">
-      <form #todoForm="ngForm" (ngSubmit)="createTodo(todoForm)" novalidate>
-        <input type="text" id="title" class="form-control" placeholder="Type a todo and press enter..." 
-               required
-               name="title" [(ngModel)]="newTodo.title"
-               #title="ngModel" >
-        <div *ngIf="title.errors && title.dirty"
-             class="alert alert-danger">
-            <div [hidden]="!title.errors.required">
-              Title is required.
-            </div>
+  <h1 class="page-title">Todo List</h1>
+  <ul class="todo-list">
+    <button class="btn btn-warning" id="submit" name="submit" (ngSubmit)="createTodo(todoForm)">Delete all</button>
+    <li *ngFor="let todo of todos" [class.completed]="todo.completed === true">
+      <div class="todo-row" *ngIf="!editing || editingTodo.id != todo.id">
+        <a class="todo-completed" (click)="toggleCheckbox(todo.id)">
+          <i class="material-icons toggle-completed-checkbox"></i>
+        </a>
+        <span class="col p-2 d-flex flex-column position-static">
+          <h3 class="mb-0 todo-title">{{todo.title}}</h3>
+          <div class="mb-1 text-muted todo-timeOfEvent">{{todo.timeOfEvent}}</div>
+          <p class="mb-auto todo-description">{{todo.description}}</p>
+        </span>
+        <span class="todo-actions">
+          <a (click)="editTodo(todo)">
+            <i class="material-icons edit">edit</i>
+          </a>
+          <a (click)="deleteTodo(todo.id)">
+            <i class="material-icons delete">clear</i>
+          </a>
+        </span>
+      </div>
+      <div class="todo-edit" *ngIf="editing && editingTodo.id === todo.id">
+        <input class="form-control" type="text" [(ngModel)]="editingTodo.title" required>
+        <span class="edit-actions">
+          <a (click)="updateTodo(editingTodo)">
+            <i class="material-icons">done</i>
+          </a>
+          <a (click)="clearEditing()">
+            <i class="material-icons">clear</i>
+          </a>
+        </span>
+      </div>
+    </li>
+  </ul>
+  <div class="no-todos" *ngIf="todos && todos.length == 0">
+    <p>No Todos Found!</p>
+  </div>
+</div>
+
+<div class="todo-content">
+  <h1 class="page-title">Create New Todo</h1>
+  <div class="todo-create">
+    <form #todoForm="ngForm" (ngSubmit)="createTodo(todoForm)">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" class="form-control" placeholder="Type something..." required name="title"
+          [(ngModel)]="newTodo.title" #title="ngModel">
+        <div *ngIf="title.errors && title.dirty" class="alert alert-danger">
+          <div [hidden]="!title.errors.required">Title is required.</div>
         </div>
-      </form>
-    </div>
-    <ul class="todo-list">
-      <li *ngFor="let todo of todos" [class.completed]="todo.completed === true" >
-        <div class="todo-row" *ngIf="!editing || editingTodo.id != todo.id">
-            <a class="todo-completed" (click)="toggleCompleted(todo)">
-              <i class="material-icons toggle-completed-checkbox"></i> 
-            </a> 
-            <span class="todo-title">
-              {{todo.title}}
-            </span>
-            <span class="todo-actions">
-                <a (click)="editTodo(todo)">
-                  <i class="material-icons edit">edit</i>
-                </a>
-                <a (click)="deleteTodo(todo.id)">
-                  <i class="material-icons delete">clear</i>
-                </a>
-            </span>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" class="form-control" name="description" placeholder="Type something..."
+          [(ngModel)]="newTodo.description" #description="ngModel">
+      </div>
+      <div class="form-group">
+        <label for="description">Time of event</label>
+        <input class="form-control" [min]="min" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1"
+          name="timeOfEvent" placeholder="mm/dd/yyyy HH:MM" [(ngModel)]="newTodo.timeOfEvent" #timeOfEvent="ngModel">
+        <owl-date-time #dt1></owl-date-time>
+        <div *ngIf="timeOfEvent.invalid && timeOfEvent.errors.owlDateTimeMin">
+          Date Time value must after {{min | date: 'medium'}}
         </div>
-        <div class="todo-edit" *ngIf="editing && editingTodo.id === todo.id">
-            <input class="form-control" type="text" 
-             [(ngModel)]="editingTodo.title" required>
-            <span class="edit-actions">
-                <a (click)="updateTodo(editingTodo)">
-                  <i class="material-icons">done</i>
-                </a>
-                <a (click)="clearEditing()">
-                  <i class="material-icons">clear</i>
-                </a>
-            </span>
-        </div>
-      </li>
-    </ul>
-    <div class="no-todos" *ngIf="todos && todos.length == 0">
-        <p>No Todos Found!</p>
-    </div>
+      </div>
+      <button class="btn btn-primary" id="submit" name="submit" (ngSubmit)="createTodo(todoForm)">Submit</button>
+    </form>
+  </div>
 </div>
